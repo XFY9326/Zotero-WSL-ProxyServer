@@ -24,16 +24,23 @@ ZOTERO_HOST = "127.0.0.1"
 ZOTERO_PORT = 23119
 
 
+def app_error_exit():
+    print("\n")
+    # Only support Windows
+    os.system('pause')
+    sys.exit(1)
+
+
 def check_system_requirements():
     if platform.system().lower() != "windows":
         sys.stderr.write("WSL is a function provided by Windows!\n")
-        sys.exit(1)
+        app_error_exit()
     if os.system("wsl --version >nul 2>nul") != 0:
         sys.stderr.write("WSL is not enabled in current system!\n")
-        sys.exit(1)
+        app_error_exit()
     if os.system("ipconfig >nul 2>nul") != 0:
         sys.stderr.write("Can't read network interface info!\n")
-        sys.exit(1)
+        app_error_exit()
 
 
 def get_process_name_by_pid(pid: int) -> Optional[str]:
@@ -52,10 +59,10 @@ def check_port_used(host: str):
             pid = int(line.split()[-1].strip())
             process_name = get_process_name_by_pid(pid)
             if process_name is not None:
-                sys.stderr.write(f"{host}:{ZOTERO_PORT} is already in use by '{process_name}'!\n")
+                sys.stderr.write(f"Port {host}:{ZOTERO_PORT} is already used by '{process_name}'!\n")
             else:
-                sys.stderr.write(f"{host}:{ZOTERO_PORT} is already in use!\n")
-            sys.exit(1)
+                sys.stderr.write(f"Port {host}:{ZOTERO_PORT} is already in use!\n")
+            app_error_exit()
 
 
 def get_wsl_host_ip() -> str:
@@ -72,10 +79,10 @@ def get_wsl_host_ip() -> str:
                     break
         except:
             sys.stderr.write("Can't recognize WSL host IP address format!\n")
-            sys.exit(1)
+            app_error_exit()
     if ip is None:
         sys.stderr.write("Can't find WSL host IP address!\n")
-        sys.exit(1)
+        app_error_exit()
     else:
         return ip
 
@@ -158,7 +165,7 @@ class ZoteroProxyHttpHandler(BaseHTTPRequestHandler):
 
 
 def launch_zotero_proxy_server(host: str):
-    print("\nLoading server ...", end='')
+    print("Loading server ...", end='')
     httpd = HTTPServer(server_address=(host, ZOTERO_PORT), RequestHandlerClass=ZoteroProxyHttpHandler)
     # noinspection HttpUrlsUsage
     wsl_zotero_url = f"http://{socket.gethostname().lower()}.local:{ZOTERO_PORT}"
@@ -184,7 +191,7 @@ def main():
     print(f"Website: {__website__}\n")
     print("Windows host IP in WSL:", wsl_host_ip)
     print("Zotero status:", "Running" if check_zotero_connector() else "Not found")
-    print("Server type:", HTTPServer.__name__)
+    print("Server type:", HTTPServer.__name__, "\n")
     check_port_used(wsl_host_ip)
     launch_zotero_proxy_server(wsl_host_ip)
 
