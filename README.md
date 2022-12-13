@@ -1,6 +1,6 @@
 # Zotero-WSL-ProxyServer
 
-[![Python 3](https://img.shields.io/badge/python-3-blue.svg)](https://www.python.org/downloads/release/python-390/)
+[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
 Make [Zotero](https://learn.microsoft.com/en-us/windows/wsl/install) on Windows hosts accessible in [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
 
@@ -16,22 +16,25 @@ As we all know, writing Latex under WSL is much faster than under Windows. I lik
 
 ## Usage
 
-1. Launch proxy server and Zotero
+1. Download [latest exe release](https://github.com/XFY9326/Zotero-WSL-ProxyServer/releases/latest) or just use [Python script](https://raw.githubusercontent.com/XFY9326/Zotero-WSL-ProxyServer/master/main.py)
+
+2. Launch proxy server and Zotero
 
    The output will be as follows:
 
     ```
-    WSL host IP: [Windows ip in WSL]
-    Zotero status: Running
-    Server type: ThreadingHTTPServer
-    
-    Server launched in WSL: http://[Windows ip in WSL]:23119
-    WSL url: http://[Windows name in WSL].local:23119
-    WSL ping check: curl -I http://[Windows name in WSL].local:23119/connector/ping
-    <Press Control-C to exit>
+   Windows host IP in WSL: [Windows ip in WSL]
+   Zotero status: Running
+   Server type: ThreadingHTTPServer
+   
+   Serving on [Windows ip in WSL]:23119
+   Zotero WSL url: http://[Windows name in WSL].local:23119
+   Zotero WSL ping check: curl -I http://[Windows name in WSL].local:23119/connector/ping
+   <Press Control-C to exit>
+   -------------------- Request Log --------------------
     ```
 
-2. Modify server url in VSCode Zotero Extension
+3. Modify server url in VSCode Zotero Extension
 
    Here is how to modify [Zotero LaTeX](https://marketplace.visualstudio.com/items?itemName=bnavetta.zoterolatex) and [Citation Picker for Zotero](https://marketplace.visualstudio.com/items?itemName=mblode.zotero) server in settings.json:
 
@@ -42,7 +45,7 @@ As we all know, writing Latex under WSL is much faster than under Windows. I lik
    }
    ```
 
-3. Enjoy citation (or not :P)
+4. Enjoy citation (or not :P)
 
 ## Working principle
 

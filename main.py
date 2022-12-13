@@ -14,8 +14,12 @@ except:
 
 from http.server import BaseHTTPRequestHandler
 
-__version__ = "0.2"
+__product_name__ = "Zotero WSL ProxyServer"
+__version__ = "0.1.0.0"
+__author__ = "XFY9326"
+__website__ = "https://github.com/XFY9326/Zotero-WSL-ProxyServer"
 
+# Consts
 ZOTERO_HOST = "127.0.0.1"
 ZOTERO_PORT = 23119
 
@@ -175,6 +179,9 @@ def launch_zotero_proxy_server(host: str):
 def main():
     check_system_requirements()
     wsl_host_ip = get_wsl_host_ip()
+    print(f"{__product_name__}  v{__version__}")
+    print(f"Made by {__author__}")
+    print(f"Website: {__website__}\n")
     print("Windows host IP in WSL:", wsl_host_ip)
     print("Zotero status:", "Running" if check_zotero_connector() else "Not found")
     print("Server type:", HTTPServer.__name__)

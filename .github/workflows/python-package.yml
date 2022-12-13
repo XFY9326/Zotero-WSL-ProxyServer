@@ -3,31 +3,31 @@ name: Python package
 on:
   push:
     tags:
-    - '*'
+      - '*'
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.9"
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip wheel setuptools
-        python -m pip install pyinstaller
-        
-    - name: Build package
-      run: |
-        pyinstaller -F Zotero-WSL-ProxyServer.py
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Upload release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: dist/*.exe
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          python -m pip install pyinstaller pyinstaller-versionfile
+
+      - name: Build package
+        run: |
+          python build.py
+
+      - name: Upload release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*.exe
