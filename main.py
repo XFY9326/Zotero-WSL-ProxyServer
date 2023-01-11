@@ -15,7 +15,7 @@ except:
 from http.server import BaseHTTPRequestHandler
 
 __product_name__ = "Zotero WSL ProxyServer"
-__version__ = "0.1.0.0"
+__version__ = "0.1.0.1"
 __author__ = "XFY9326"
 __website__ = "https://github.com/XFY9326/Zotero-WSL-ProxyServer"
 
