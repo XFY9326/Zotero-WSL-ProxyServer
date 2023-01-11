@@ -1,25 +1,29 @@
 import os
+import sys
 
-# noinspection PyBroadException
 try:
     import PyInstaller.__main__ as pyinstaller
-except:
-    os.system("python -m pip install pyinstaller")
+except ModuleNotFoundError:
+    os.system(f"{sys.executable} -m pip install pyinstaller")
     import PyInstaller.__main__ as pyinstaller
 
-# noinspection PyBroadException
 try:
     import pyinstaller_versionfile
-except:
-    os.system("python -m pip install pyinstaller-versionfile")
+except ModuleNotFoundError:
+    os.system(f"{sys.executable} -m pip install pyinstaller-versionfile")
     import pyinstaller_versionfile
 
 from main import __version__, __product_name__, __author__
 
 __product_file_name__ = "Zotero-WSL-ProxyServer"
 __entry__ = "main.py"
+__cython_module_name__ = "main"
 
 if __name__ == '__main__':
+    # Build cython
+    os.system(f"{sys.executable} setup.py build_ext --inplace")
+
+    # Create version info
     release_name = f"{__product_file_name__}_{__version__}"
     build_path = os.path.join("build", release_name)
     version_file_path = os.path.join(build_path, "file_version_info.txt")
@@ -38,10 +42,12 @@ if __name__ == '__main__':
         translations=[0, 1200]
     )
 
+    # Package
     pyinstaller.run([
         __entry__,
         '-F',
         '--icon=assets/app_icon.ico',
+        f'--hidden-import={__cython_module_name__}',
         f"--version-file={version_file_path}",
         f"--name={release_name}",
     ])
