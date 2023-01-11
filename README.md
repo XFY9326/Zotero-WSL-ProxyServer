@@ -47,6 +47,10 @@ As we all know, writing Latex under WSL is much faster than under Windows. I lik
 
 4. Enjoy citation (or not :P)
 
+## One more thing
+
+You can set the .bib file exported in BetterTex to automatically update and export it directly to ``\\wsl.localhost\Ubuntu\home\``.
+
 ## Working principle
 
 The first premise is that WSL2 cannot access the port under 127.0.0.1 of the Windows host. Because the two of them are completely isolated system environments.
