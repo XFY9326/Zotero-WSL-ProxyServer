@@ -24,7 +24,7 @@ if __name__ == "__main__":
         "--onefile",
         "--assume-yes-for-downloads",
         f"--output-dir=\"{BUILD_DIR}\"",
-        f"--output-filename=\"{PRODUCT_NAME}\"",
+        f"--output-filename=\"{PRODUCT_NAME}_{__version__}\"",
         f"--product-name=\"{__product_name__}\"",
         f"--file-description=\"{__product_name__}\"",
         f"--file-version=\"{__version__}\"",
