@@ -15,7 +15,7 @@ except:
 from http.server import BaseHTTPRequestHandler
 
 __product_name__ = "Zotero WSL ProxyServer"
-__version__ = "0.1.0.1"
+__version__ = "0.1.0.2"
 __author__ = "XFY9326"
 __website__ = "https://github.com/XFY9326/Zotero-WSL-ProxyServer"
 
@@ -186,7 +186,7 @@ def launch_zotero_proxy_server(host: str):
 def main():
     check_system_requirements()
     wsl_host_ip = get_wsl_host_ip()
-    print(f"{__product_name__}  v{__version__}")
+    print(f"{__product_name__}  v {__version__}")
     print(f"Made by {__author__}")
     print(f"Website: {__website__}\n")
     print("Windows host IP in WSL:", wsl_host_ip)

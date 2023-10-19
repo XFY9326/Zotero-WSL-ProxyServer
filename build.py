@@ -1,53 +1,37 @@
 import os
+import platform
 import sys
-
-try:
-    import PyInstaller.__main__ as pyinstaller
-except ModuleNotFoundError:
-    os.system(f"{sys.executable} -m pip install pyinstaller")
-    import PyInstaller.__main__ as pyinstaller
-
-try:
-    import pyinstaller_versionfile
-except ModuleNotFoundError:
-    os.system(f"{sys.executable} -m pip install pyinstaller-versionfile")
-    import pyinstaller_versionfile
+from importlib.util import find_spec
 
 from main import __version__, __product_name__, __author__
 
-__product_file_name__ = "Zotero-WSL-ProxyServer"
-__entry__ = "main.py"
-__cython_module_name__ = "main"
+PRODUCT_NAME = "Zotero-WSL-ProxyServer"
+BUILD_DIR = "build"
+ICO_PATH = "assets/app_icon.ico"
+MAIN_ENTRY = ".\\main.py"
 
-if __name__ == '__main__':
-    # Build cython
-    os.system(f"{sys.executable} setup.py build_ext --inplace")
+if __name__ == "__main__":
+    if find_spec("nuitka") is None:
+        assert os.system(f"{sys.executable} -m pip install nuitka") == 0, "Pip nuitka install failed!"
 
-    # Create version info
-    release_name = f"{__product_file_name__}_{__version__}"
-    build_path = os.path.join("build", release_name)
-    version_file_path = os.path.join(build_path, "file_version_info.txt")
-    if not os.path.exists(build_path):
-        os.makedirs(build_path)
+    if platform.system().lower() != "windows":
+        raise OSError("This program only support Windows!")
 
-    pyinstaller_versionfile.create_versionfile(
-        output_file=version_file_path,
-        version=__version__,
-        company_name=__author__,
-        file_description=__product_name__,
-        internal_name=__product_name__,
-        legal_copyright=f"© {__author__}. All rights reserved.",
-        original_filename=f"{__product_file_name__}.exe",
-        product_name=__product_name__,
-        translations=[0, 1200]
-    )
-
-    # Package
-    pyinstaller.run([
-        __entry__,
-        '-F',
-        '--icon=assets/app_icon.ico',
-        f'--hidden-import={__cython_module_name__}',
-        f"--version-file={version_file_path}",
-        f"--name={release_name}",
-    ])
+    # noinspection SpellCheckingInspection
+    commands = [
+        "nuitka",
+        "--enable-console",
+        "--onefile",
+        "--assume-yes-for-downloads",
+        f"--output-dir=\"{BUILD_DIR}\"",
+        f"--output-filename=\"{PRODUCT_NAME}\"",
+        f"--product-name=\"{__product_name__}\"",
+        f"--file-description=\"{__product_name__}\"",
+        f"--file-version=\"{__version__}\"",
+        f"--product-version=\"{__version__}\"",
+        f"--company-name=\"{__author__}\"",
+        f"--copyright=\"© {__author__}. All rights reserved.\"",
+        f"--windows-icon-from-ico=\"{ICO_PATH}\"",
+        MAIN_ENTRY
+    ]
+    os.system(" ".join(commands))
