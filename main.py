@@ -35,7 +35,7 @@ def check_system_requirements():
     if platform.system().lower() != "windows":
         sys.stderr.write("WSL is a function provided by Windows!\n")
         app_error_exit()
-    if os.system("wsl --version >nul 2>nul") != 0:
+    if os.system("wsl --status >nul 2>nul") != 0:
         sys.stderr.write("WSL is not enabled in current system!\n")
         app_error_exit()
     if os.system("ipconfig >nul 2>nul") != 0:
@@ -72,7 +72,7 @@ def get_wsl_host_ip() -> str:
         # noinspection PyBroadException
         try:
             for line in p:
-                if "vEthernet (WSL)" in line:
+                if "vEthernet" in line and "WSL" in line:
                     is_right_adapter = True
                 elif is_right_adapter and "IPv4" in line:
                     ip = line.split(":")[1].strip()
@@ -186,7 +186,7 @@ def launch_zotero_proxy_server(host: str):
 def main():
     check_system_requirements()
     wsl_host_ip = get_wsl_host_ip()
-    print(f"{__product_name__}  v {__version__}")
+    print(f"{__product_name__}  v{__version__}")
     print(f"Made by {__author__}")
     print(f"Website: {__website__}\n")
     print("Windows host IP in WSL:", wsl_host_ip)
