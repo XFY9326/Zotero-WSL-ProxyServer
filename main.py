@@ -1,7 +1,7 @@
 import os
+import platform
 import socket
 import sys
-import platform
 from http import HTTPStatus
 from http.client import HTTPConnection
 from typing import Any, Optional
@@ -15,7 +15,7 @@ except:
 from http.server import BaseHTTPRequestHandler
 
 __product_name__ = "Zotero WSL ProxyServer"
-__version__ = "0.1.0.2"
+__version__ = "0.1.0.3"
 __author__ = "XFY9326"
 __website__ = "https://github.com/XFY9326/Zotero-WSL-ProxyServer"
 
