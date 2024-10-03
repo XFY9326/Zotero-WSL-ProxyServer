@@ -2,7 +2,7 @@
 
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
-Make [Zotero](https://learn.microsoft.com/en-us/windows/wsl/install) on Windows hosts accessible in [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
+Make [Zotero](https://learn.microsoft.com/en-us/windows/wsl/install) on Windows hosts accessible in [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) or [Docker based on WSL2](https://docs.docker.com/desktop/wsl/)
 
 ## Introduction
 
@@ -45,7 +45,16 @@ As we all know, writing Latex under WSL is much faster than under Windows. I lik
    }
    ```
 
-4. Enjoy citation (or not :P)
+   If you are using Docker based on WSL2 instead of running Latex directly in WSL, you will need to use the following configuration:
+
+   ```json
+   {
+      "zotero.serverUrl": "http://[Windows ip in WSL]:23119",
+      "zotero-citation-picker.port": "http://[Windows ip in WSL]:23119/better-bibtex/cayw?format=pandoc"
+   }
+   ```
+
+5. Enjoy citation (or not :P)
 
 ## One more thing
 
